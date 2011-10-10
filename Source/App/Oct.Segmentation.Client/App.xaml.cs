@@ -12,6 +12,8 @@ using System.Windows.Shapes;
 
 namespace Oct.Segmentation.Client
 {
+    using Oct.Segmentation.Client.ViewModels;
+
     public partial class App : Application
     {
 
@@ -24,9 +26,13 @@ namespace Oct.Segmentation.Client
             InitializeComponent();
         }
 
+// ReSharper disable InconsistentNaming
         private void Application_Startup(object sender, StartupEventArgs e)
+// ReSharper restore InconsistentNaming
         {
-            this.RootVisual = new MainPage();
+            var mainPage = new MainPage();
+            mainPage.DataContext = new ApplicationViewModel();
+            this.RootVisual = mainPage;
         }
 
         private void Application_Exit(object sender, EventArgs e)
@@ -34,7 +40,9 @@ namespace Oct.Segmentation.Client
 
         }
 
+// ReSharper disable InconsistentNaming
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
+// ReSharper restore InconsistentNaming
         {
             // If the app is running outside of the debugger then report the exception using
             // the browser's exception mechanism. On IE this will display it a yellow alert 
