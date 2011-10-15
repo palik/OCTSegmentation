@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-
-namespace Oct.Segmentation.Client
+﻿namespace Oct.Segmentation.Client
 {
-    using Oct.Segmentation.Client.ViewModels;
+    using System;
+    using System.Windows;
+    using Oct.Segmentation.Client.Views;
 
     public partial class App : Application
     {
@@ -30,9 +20,7 @@ namespace Oct.Segmentation.Client
         private void Application_Startup(object sender, StartupEventArgs e)
 // ReSharper restore InconsistentNaming
         {
-            var mainPage = new MainPage();
-            mainPage.DataContext = new ApplicationViewModel();
-            this.RootVisual = mainPage;
+            this.RootVisual = new ApplicationView();
         }
 
         private void Application_Exit(object sender, EventArgs e)

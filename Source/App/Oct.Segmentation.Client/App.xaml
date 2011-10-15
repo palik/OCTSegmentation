@@ -1,8 +1,8 @@
 ﻿<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-             x:Class="Oct.Segmentation.Client.App"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Oct.Segmentation.Client.ViewModels" x:Class="Oct.Segmentation.Client.App"
              >
     <Application.Resources>
-        
+        <local:ApplicationViewModel x:Key="ApplicationViewModel" />
     </Application.Resources>
 </Application>

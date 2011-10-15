@@ -1,53 +1,47 @@
 ﻿namespace Oct.Segmentation.Client.Models
 {
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
 
-    using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Graphics;
+    using Caliburn.Micro;
 
-    public class Image3D
+    public class Image3D : PropertyChangedBase
     {
-        private Matrix world;
-        private Matrix view;
-        private Matrix projection;
+        private string workingDirectory;
+        private Image2D[] slices;
 
-        private float rotationAngle = 0.0f;
-
-        public Image3D(string directoryPath)
+        public Image3D(string workingDirectory, IList<Image2D> images)
         {
-            IEnumerable<string> files = Directory.EnumerateFiles(directoryPath, "*.jpg");
+            this.WorkingDirectory = workingDirectory;
 
-            int numberOfFiles = files.Count();
-            Images = new Image[numberOfFiles];
-
-            int index = 0;
-            foreach (var file in files)
-            {
-                Images[index] = new Image(Path.Combine(directoryPath, file), index);
-                index++;
-            }
-
-            Vector3 cameraPosition = new Vector3(0, 0, 5.0f); // the camera's position
-            Vector3 cameraTarget = Vector3.Zero;
-
-            view = Matrix.CreateLookAt(cameraPosition, cameraTarget, Vector3.Up);
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1.4f, 1.0f, 100.0f);
+            this.Slices = images.ToArray();
         }
 
-        public Image[] Images { get; set; } 
-
-        public void Draw(GraphicsDevice device)
+        
+        public Image2D[] Slices
         {
-            world = Matrix.CreateRotationY(rotationAngle);
-
-            foreach (var image in Images)
+            get
             {
-                image.Draw(device, world * view * projection);
+                return this.slices;
             }
-
-            rotationAngle += 0.005f;
+            set
+            {
+                this.slices = value;
+                NotifyOfPropertyChange(() => Slices);
+            }
         }
+
+        public string WorkingDirectory
+        {
+            get
+            {
+                return this.workingDirectory;
+            }
+            set
+            {
+                this.workingDirectory = value;
+                this.NotifyOfPropertyChange(() => WorkingDirectory);
+            }
+        } 
     }
 }

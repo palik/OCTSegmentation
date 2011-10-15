@@ -1,20 +1,54 @@
 ﻿namespace Oct.Segmentation.Client.ViewModels
 {
-    using System.Windows.Graphics;
-    using Oct.Segmentation.Client.Models;
+    using System.Windows.Controls;
 
-    public class ApplicationViewModel
+    using Caliburn.Micro;
+
+    public class ApplicationViewModel : PropertyChangedBase
     {
+        private bool isBusy = false;
+
+        private ImageViewModel image;
+
         public ApplicationViewModel()
         {
-            OctImage = new Image3D(@"D:\Documents\inzynierka\DaneOCT\2009-12-10_103640_sig");
+
         }
 
-        public Image3D OctImage { get; set; }
-
-        public void DrawImage3D()
+        public ImageViewModel Image
         {
-            OctImage.Draw(GraphicsDeviceManager.Current.GraphicsDevice);
+            get
+            {
+                return this.image;
+            }
+            set
+            {
+                this.image = value;
+                NotifyOfPropertyChange(() => Image);
+            }
+        }
+
+        public bool IsBusy
+        {
+            get
+            {
+                return this.isBusy;
+            }
+            set
+            {
+                this.isBusy = value;
+                NotifyOfPropertyChange(() => IsBusy);
+            }
+        }
+
+        public void ChooseWorkingDirectory()
+        {
+            var openDialog = new OpenFileDialog();
+
+            if (openDialog.ShowDialog() == true)
+            {
+                this.Image = new ImageViewModel(openDialog.File.DirectoryName);
+            }
         }
     }
 }

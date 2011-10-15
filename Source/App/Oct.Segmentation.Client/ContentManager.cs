@@ -14,7 +14,7 @@
 
     public class ContentManager
     {
-        static public Texture2D LoadBitmap(string imageName)
+        static public Texture2D LoadBitmapFromApplicationResources(string imageName)
         {
             var sr = Application.GetResourceStream(new Uri(imageName, UriKind.Relative));
             var bs = new BitmapImage();
@@ -26,12 +26,17 @@
             return texture2D;
         }
 
-        static public Texture2D LoadBitmapFromFile(string imageName)
+        public static BitmapImage LoadBitmapFromFile(string imagePath)
         {
-            var sr = new FileStream(imageName, FileMode.Open, FileAccess.Read);
+            var sr = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
             var bs = new BitmapImage();
             bs.SetSource(sr);
 
+            return bs;
+        }
+
+        static public Texture2D ConvertBitmapToTexture(BitmapImage bs)
+        {
             var texture2D = new Texture2D(GraphicsDeviceManager.Current.GraphicsDevice, bs.PixelWidth, bs.PixelHeight, false, SurfaceFormat.Color);
             bs.CopyTo(texture2D);
 

@@ -1,0 +1,56 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+             xmlns:views="clr-namespace:Oct.Segmentation.Client.Views"
+             x:Class="Oct.Segmentation.Client.Views.ApplicationView"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="400"
+             DataContext="{StaticResource ApplicationViewModel}">
+
+    <Grid>
+        <toolkit:ExpressionLightTheme>
+            <toolkit:DockPanel>
+                <StackPanel Width="100"
+                            Orientation="Horizontal"
+                            toolkit:DockPanel.Dock="Top"
+                            HorizontalAlignment="Left">
+                    <Button Content="Choose directory"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <ei:CallMethodAction MethodName="ChooseWorkingDirectory"
+                                                     TargetObject="{Binding Mode=OneWay}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <TextBlock Text="{Binding Image.Model.WorkingDirectory, Mode=TwoWay}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+
+                    <DrawingSurface x:Name="surface"
+                                    Draw="OnDraw" />
+
+                    <sdk:GridSplitter Grid.Row="1"
+                                      HorizontalAlignment="Stretch" />
+
+                    <views:SlicesView Grid.Row="2" />
+
+                </Grid>
+            </toolkit:DockPanel>
+        </toolkit:ExpressionLightTheme>
+    </Grid>
+
+</UserControl>
