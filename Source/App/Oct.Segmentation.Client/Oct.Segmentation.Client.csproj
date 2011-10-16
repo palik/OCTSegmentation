@@ -91,9 +91,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Caliburn.Micro\ContainerExtensions.cs" />
     <Compile Include="Caliburn.Micro\EventAggregator.cs" />
     <Compile Include="Caliburn.Micro\ExtensionMethods.cs" />
     <Compile Include="Caliburn.Micro\INPC.cs" />
+    <Compile Include="Caliburn.Micro\SimpleContainer.cs" />
     <Compile Include="ContentManager.cs" />
     <Compile Include="Infrastructure\ISelectable.cs" />
     <Compile Include="Models\Image3D.cs" />

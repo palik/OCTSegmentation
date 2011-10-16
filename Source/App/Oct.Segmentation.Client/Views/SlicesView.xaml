@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <ListBox ItemsSource="{Binding Image.Model.Slices, Mode=OneWay}"
+    <ListBox ItemsSource="{Binding Image.Model.OriginalSlices, Mode=OneWay}"
              SelectedItem="{Binding Image.SelectedSlice, Mode=TwoWay}"
              ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <ItemsControl.ItemTemplate>

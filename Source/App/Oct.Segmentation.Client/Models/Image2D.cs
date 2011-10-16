@@ -1,8 +1,5 @@
 ﻿namespace Oct.Segmentation.Client.Models
 {
-    using System;
-    using System.IO;
-    using System.Windows;
     using System.Windows.Graphics;
     using System.Windows.Media.Imaging;
 

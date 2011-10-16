@@ -41,7 +41,12 @@
                     </Grid.RowDefinitions>
 
                     <DrawingSurface x:Name="surface"
-                                    Draw="OnDraw" />
+                                    Draw="SurfaceOnDraw"
+                                    MouseLeftButtonDown="SurfaceOnMouseLeftButtonDown"
+                                    MouseLeftButtonUp="SurfaceOnMouseLeftButtonUp" 
+                                    MouseMove="SurfaceOnMouseMove"
+                                    MouseWheel="SurfaceOnMouseWheel"
+                                    SizeChanged="SurfaceOnSizeChanged"/>
 
                     <sdk:GridSplitter Grid.Row="1"
                                       HorizontalAlignment="Stretch" />

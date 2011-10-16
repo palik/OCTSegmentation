@@ -24,8 +24,7 @@
         private Matrix projection;
 
         private Vector3 cameraPosition;
-
-        private float rotationAngle = 0.0f;
+        private Vector3 cameraTarget;
 
         public ImageViewModel(string workingDirectory)
         {
@@ -59,12 +58,21 @@
             }
             set
             {
-                this.Model.Slices.Apply(x => x.IsSelected = false);
-                this.selectedSlice = value;
-                this.selectedSlice.IsSelected = true;
-                NotifyOfPropertyChange(() => SelectedSlice);
+                if (value != null)
+                {
+                    this.Model.Slices.Apply(x => x.IsSelected = false);
+                    this.selectedSlice = value;
+                    this.selectedSlice.IsSelected = true;
+                    NotifyOfPropertyChange(() => SelectedSlice);
+                }
             }
         }
+
+        public float RotationYAngle { get; set; }
+
+        public float RotationXAngle { get; set; }
+
+        public float Zoom { get; set; }
 
         private void CreateModel(string workingDirectory)
         {
@@ -78,10 +86,12 @@
         {
             var files = Directory.EnumerateFiles(directory, "*.jpg");
 
+            var numberOfFiles = files.Count();
+
             var index = 0;
             foreach (var file in files)
             {
-                yield return new Image2D(Path.Combine(directory, file), index);
+                yield return new Image2D(Path.Combine(directory, file), index - numberOfFiles/2);
                 index++;
             }
         }
@@ -89,15 +99,18 @@
         private void Initialize3D()
         {
             cameraPosition = new Vector3(0, 0, 5.0f);
-            var cameraTarget = Vector3.Zero;
-
-            view = Matrix.CreateLookAt(cameraPosition, cameraTarget, Vector3.Up);
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1.4f, 1.0f, 100.0f);
+            cameraTarget = Vector3.Zero;
         }
 
-        public void Draw(GraphicsDevice device)
+        public void Draw(GraphicsDevice device, float aspectRatio)
         {
-            world = Matrix.CreateRotationY(rotationAngle);
+            cameraPosition.Z += this.Zoom;
+
+            view = Matrix.CreateLookAt(cameraPosition, cameraTarget, Vector3.Up);
+
+            world = Matrix.CreateRotationY(this.RotationYAngle) * Matrix.CreateRotationX(this.RotationXAngle);
+
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 1.0f, 100.0f);
 
             Array.Sort(
                 this.Model.Slices, delegate(Image2D slice1, Image2D slice2)
@@ -115,8 +128,11 @@
             {
                 slice.Draw(device, world * view * projection);
             }
+        }
 
-            rotationAngle += 0.005f;
+        public void SetAspectRatio(float aspectRatio)
+        {
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 1.0f, 100.0f);
         }
     }
 }
